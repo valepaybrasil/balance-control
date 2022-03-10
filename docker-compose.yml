@@ -1,0 +1,52 @@
+version: '3'
+services:
+    web:
+        image: webdevops/php-apache-dev:7.4-alpine
+        container_name: web
+        restart: always
+        user: application
+        environment:
+          - WEB_ALIAS_DOMAIN=local.domain.com
+          - WEB_DOCUMENT_ROOT=/var/www/html/public
+          - PHP_DATE_TIMEZONE=EST
+          - PHP_DISPLAY_ERRORS=1
+          - PHP_MEMORY_LIMIT=4G
+          - PHP_MAX_EXECUTION_TIME=300
+          - PHP_POST_MAX_SIZE=1G
+          - PHP_UPLOAD_MAX_FILESIZE=1024M
+        volumes:
+          - /home/controle_de_saldo:/var/www/html
+        ports:
+          - "80:80"
+        links:
+          - mysql
+    mysql:
+      image: mariadb:10.2
+      container_name: mysql
+      restart: always
+      ports:
+        - "3306:3306"
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=control_balance
+      volumes:
+        - mariadb:/var/lib/mysql
+
+    phpmyadmin:
+        container_name: phpmyadmin
+        restart: always
+        image: phpmyadmin/phpmyadmin:latest
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - PMA_USER=root
+          - PMA_PASSWORD=root
+        ports:
+          - "8080:80"
+        links:
+          - mysql:db
+        depends_on:
+          - mysql
+
+volumes:
+    mariadb:
+        external: false
