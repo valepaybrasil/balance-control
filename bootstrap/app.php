@@ -64,6 +64,8 @@ $app->configure('app');
 // initialize auth configuration
 $app->configure('auth');
 
+$app->configure('microservices');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware

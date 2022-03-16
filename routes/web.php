@@ -79,3 +79,14 @@ $router->group(['middleware' => ['auth:api'], 'prefix' => 'withdrawals'], functi
 $router->group(['middleware' => ['auth:api'], 'prefix' => 'balance'], function () use ($router) {
     $router->post('/unblock', 'DepositController@unblock');
 });
+
+
+$router->group(['middleware' => [], 'prefix' => 'webhook'], function () use ($router) {
+    
+    $router->group(['prefix' => 'arch'], function () use ($router) {
+        $router->get('logger', 'Baas\LoggerController@getLogger');
+        $router->get('logger/{logger}', 'Baas\LoggerController@getLoggerDetail');
+        $router->post('logger', 'Baas\LoggerController@create');
+    });
+});
+
