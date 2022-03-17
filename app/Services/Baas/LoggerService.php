@@ -23,16 +23,28 @@ class LoggerService
 
   public function getLogger()
   {
-    return $this->request('GET', '/arch/logger');
+    $responseData = $this->request('GET', '/arch/logger');
+
+    return $responseData->data->list;
   }
 
   public function getLoggerDetail(string $logger)
   {
-    return $this->request('GET', "/arch/logger/{$logger}");
+    $responseData = $this->request('GET', "/arch/logger/{$logger}");
+
+    return [
+      'level' => $responseData->data->level,
+      'name' => $responseData->data->name
+    ];
   }
 
   public function create(array $data)
   {
-    return $this->request('POST', '/arch/logger', $data);
+    $responseData = $this->request('POST', '/arch/logger', $data);
+
+    return [
+      'level' => $responseData->data->level,
+      'name' => $responseData->data->name
+    ];
   }
 }
