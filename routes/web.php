@@ -88,5 +88,16 @@ $router->group(['middleware' => [], 'prefix' => 'webhook'], function () use ($ro
         $router->get('logger/{logger}', 'Baas\LoggerController@getLoggerDetail');
         $router->post('logger', 'Baas\LoggerController@create');
     });
+
+    $router->group(['prefix' => 'gi'], function () use ($router) {
+        $router->post('push/enviar_notificacao', 'Baas\AccountsController@sendNotification');
+        $router->post('eb/conta/bloqueio', 'Baas\AccountsController@blockAccount');
+        $router->post('eb/conta/bloqueio_devolucao_especial', 'Baas\AccountsController@blockAccountSpecialRefund');
+        $router->post('eb/conta/desbloqueio', 'Baas\AccountsController@unblockAccount');
+        $router->get('eb/conta/saldo_conta/{codIspb}/{codAgencia}/{nroConta}/{tipoConta}/{cpfCnpj}', 'Baas\AccountsController@accountBalance');
+        $router->get('eb/conta/saldo_conta/{codIspb}/{codAgencia}/{nroConta}/{tipoConta}/{cpfCnpj}/{uuidBloqueioDevolucaoEspecial}', 'Baas\AccountsController@accountBalanceBlockSpecialRefund');
+        $router->post('eb/conta/movimento', 'Baas\AccountsController@accountTransaction');
+        $router->post('eb/conta/valida_conta_recebedor', 'Baas\AccountsController@accountReceiverValidator');
+    });
 });
 
