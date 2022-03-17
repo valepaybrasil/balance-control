@@ -24,7 +24,7 @@ class AccountsController extends Controller
     $accountService = new AccountService();
     $response = $accountService->blockAccount($request->all());
 
-    return response()->json($response, 201);
+    return response()->json($response, 200);
   }
 
   public function blockAccountSpecialRefund(Request $request)
@@ -32,7 +32,7 @@ class AccountsController extends Controller
     $accountService = new AccountService();
     $response = $accountService->blockAccountSpecialRefund($request->all());
 
-    return response()->json($response, 201);
+    return response()->json($response, 200);
   }
   
   public function unblockAccount(Request $request)
@@ -40,7 +40,7 @@ class AccountsController extends Controller
     $accountService = new AccountService();
     $response = $accountService->unblockAccount($request->all());
 
-    return response()->json($response, 201);
+    return response()->json($response, 200);
   }
 
   public function accountBalance(Request $request, string $codIspb, string $codAgencia, string $nroConta, string $tipoConta, string $cpfCnpj)
