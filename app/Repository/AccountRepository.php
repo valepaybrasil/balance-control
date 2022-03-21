@@ -24,4 +24,43 @@ class AccountRepository
     }
 
 
+    public static function list(string $orderBy = 'free_amount', string $sortBy = 'ASC', int $limit = 10) : array
+    {
+	    $accountList = [];
+
+	$query = "SELECT
+			a.id AS a_id,
+			ab.id AS ab_id,
+			ab.free_amount AS ab_free_amount
+
+		FROM accounts AS a 
+		INNER JOIN account_balances AS ab ON ab.account_id = a.id
+		WHERE
+			a.deleted_at IS NULL
+			AND ab.deleted_at IS NULL
+		ORDER BY {$orderBy} {$sortBy}
+	;";
+
+	    $accountsFetch = DB::select($query);
+	
+	    foreach ($accountsFetch as $accountFetch) {
+
+		    $account = [
+			    'id' => $accountFetch->a_id,
+		    ];
+
+		    $accountBalance = [
+			    'id' => $accountFetch->ab_id,
+				'free_amount' => $accountFetch->ab_free_amount
+		    ];
+	
+		
+		    $accountList[] = [
+			    'account' => $account,
+			    'account_balance' => $accountBalance
+		    ];
+	    }
+
+	    return $accountList;
+	}
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Services\AccountService;
 use App\Services\Company\CompanyService;
 use App\Services\Person\PersonService;
 use Illuminate\Http\Request;
@@ -137,7 +138,23 @@ class AccountController extends Controller
         $request['account_uuid'] = (string) Str::uuid();
 
         $this->validate($request, $this->account->rules);
+    }
 
-        return $this->account->create($request->all());
+
+    public function getList(Request $request)
+    {
+	$accountService = new AccountService();
+
+	$accountList = $accountService->getList(
+		$request->order_by,
+		$request->sort_by,
+		$request->limit
+	);
+
+	try {
+            return response()->json(['data' => $accountList], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
+        }
     }
 }

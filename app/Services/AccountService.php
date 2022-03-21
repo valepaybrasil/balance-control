@@ -25,4 +25,10 @@ class AccountService
     }
 
 
+    public function getList(string $orderBy = 'id', string $sortBy = 'ASC', int $limit = 10) : array
+    {
+	$accountList = AccountRepository::list($orderBy, $sortBy, $limit);
+	
+	return $accountList;
+    }
 }

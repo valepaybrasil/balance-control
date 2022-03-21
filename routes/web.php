@@ -40,6 +40,7 @@ $router->group(['middleware' => ['auth:api'], 'prefix' => 'accounts'], function 
     $router->put('/block/{uuid}', 'AccountController@block');
     $router->put('/unblock/{uuid}', 'AccountController@unblock');
     $router->delete('/{account}', 'AccountController@destroy');
+    $router->get('/list', 'AccountController@getList');
 });
 
 
